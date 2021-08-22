@@ -1,9 +1,9 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
         <ion-buttons slot="start" router-link="/login">
-          <ion-icon class="color-white" slot="start" :icon="chevronBackOutline"></ion-icon>
+          <ion-icon slot="start" :icon="chevronBackOutline"></ion-icon>
           Back
         </ion-buttons>
         <ion-title class="ion-text-center">Reset your Password ?</ion-title>
@@ -20,7 +20,7 @@
                          placeholder="email@example.com" ></ion-input>
             </ion-item>
             <div class="mt-15px">
-              <ion-button color="success" fill="solid" expand="full" @click="doReset">
+              <ion-button color="primary" fill="solid" expand="full" @click="doReset">
                 Send
               </ion-button>
             </div>
@@ -58,14 +58,14 @@ export default defineComponent({
     LogoContainer
   },
   setup () {
-    const { goToHome, goToLogin, authError, store } = libStore();
+    const { goToHome, goToLogin, authErrorMessage, store } = libStore();
     onIonViewWillEnter(() => {
       goToHome();
     });
     return {
       store,
       goToLogin,
-      authError,
+      authErrorMessage,
       chevronBackOutline,
       personOutline
     }
@@ -79,17 +79,15 @@ export default defineComponent({
     async doReset() {
       try {
         const isSuccess = await this.store.dispatch('user/resetPassword', {email: this.email});
-
         if (isSuccess === false) {
-          console.log(this.authError.err.message);
-          await openToast(this.authError.err.message);
+          await openToast(this.authErrorMessage());
         } else {
           await openToast("Email Reset Sent Successfully");
           this.goToLogin();
         }
       } catch (e) {
         console.log(e);
-        await openToast(this.authError.err.message);
+        await openToast(this.authErrorMessage(e));
       }
     }
   }

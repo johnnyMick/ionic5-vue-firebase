@@ -1,8 +1,9 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
         <ion-title>{{title(currentUser)}}</ion-title>
+        <Logout slot="end" />
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -18,16 +19,17 @@
 
 <script lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-
 import { defineComponent } from 'vue';
 import { onIonViewWillEnter } from '@ionic/vue';
 import ExploreContainer from '@/components/ExploreContainer.vue';
+import Logout from '@/components/Logout.vue';
 import libStore from "@/lib/libStore";
 
 export default defineComponent({
   name: 'Tab1',
   components: {
     ExploreContainer,
+    Logout,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -39,6 +41,7 @@ export default defineComponent({
     onIonViewWillEnter(() => {
       goToLogin();
     });
+    console.log(currentUser);
     return {
       currentUser
     }

@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
         <ion-title class="ion-text-center">Page Not Found !</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -10,8 +10,8 @@
       <ion-grid :fixed="true" class="flex">
         <ion-row class="ion-align-items-center w-full">
           <ion-col size="12" class="ion-text-center">
-            <ion-button @click="goToMainPage" expand="block" fill="outline">
-              <ion-icon class="color-white" slot="start" :icon="chevronBackOutline"></ion-icon>
+            <ion-button @click="goToMainPage" color="primary" expand="block" fill="outline">
+              <ion-icon slot="start" :icon="chevronBackOutline"></ion-icon>
               Go Back to Home
             </ion-button>
           </ion-col>

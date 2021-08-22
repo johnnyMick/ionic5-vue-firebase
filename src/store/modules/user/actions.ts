@@ -1,7 +1,7 @@
 import firebase from "firebase";
 
 const actions = {
-    doAuthCheck({ commit }: any, payload: any) {
+    doAuthCheck({ commit }: any) {
         return new Promise((resolve, reject) => {
             // Setup Firebase onAuthStateChanged handler
             // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#onAuthStateChanged
@@ -30,25 +30,24 @@ const actions = {
     /**
      *
      * @param {*} param0
-     * @param {*} payload
      */
-    userLogout({ commit }: any, payload: any) {
+    userLogout({ commit }: any) {
         commit("setLoading", true)
         commit("authError", {error: null});
         // start the request...
-        commit("userLogoutRequest", payload)
+        commit("userLogoutRequest")
         // MAKE API CALL
         return firebase
             .auth()
             .signOut()
             .then(user => {
                 // when successful...
-                commit("userLogoutSuccess", payload)
+                commit("userLogoutSuccess", user)
                 return true
             })
             .catch(err => {
                 console.log(err)
-                commit("authError", { err })
+                commit("authError", err)
                 return false
             })
     },
@@ -70,7 +69,7 @@ const actions = {
             })
             .catch(err => {
                 console.log(err)
-                commit("authError", { err })
+                commit("authError", err)
                 return false
             })
     },
@@ -96,7 +95,7 @@ const actions = {
             })
             .catch(err => {
                 console.log(err)
-                commit("authError", { err })
+                commit("authError", err)
                 return false
             });
     },
@@ -123,12 +122,12 @@ const actions = {
                 })
                 .catch(err => {
                     console.log(err)
-                    commit("authError", { err })
+                    commit("authError", err)
                     return false
                 })
         } catch (err) {
             console.log(err)
-            commit("authError", { err })
+            commit("authError", err)
             return false
         }
     }

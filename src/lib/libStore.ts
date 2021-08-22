@@ -10,6 +10,13 @@ export default function () {
     const authError = computed(() => store.getters['user/authError'])
     const currentUser = computed(() => store.getters['user/currentUser'])
 
+    const authErrorMessage = function (e?: object) {
+        if (authError.value && authError.value.message) {
+            return authError.value.message
+        }
+        return (e)? e.toString() : ''
+    }
+
     const goToLogin = function () {
         if (!loggedIn.value) {
             router.push('/login')
@@ -35,6 +42,7 @@ export default function () {
         goToMainPage: goToMainPage,
         loggedIn: loggedIn,
         authError: authError,
+        authErrorMessage: authErrorMessage,
         currentUser: currentUser,
     }
 }

@@ -1,4 +1,3 @@
-
 import { toastController } from '@ionic/vue';
 
 export default async function  (_message: string) {

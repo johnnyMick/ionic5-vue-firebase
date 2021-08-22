@@ -3,32 +3,34 @@
     <ion-content :fullscreen="true">
       <LogoContainer :moto="true" />
       <ion-item>
-        <ion-icon class="color-blue pd-r-10" :icon="personOutline" />
+        <ion-icon color="primary" class="pd-r-10" :icon="personOutline" />
         <ion-input type="email" autocomplete="email" inputmode="email" pattern="email" v-model="email"
                    placeholder="email@example.com" ></ion-input>
       </ion-item>
       <ion-item>
-        <ion-icon class="color-blue pd-r-10" :icon="lockClosed" />
+        <ion-icon color="primary" class="pd-r-10" :icon="lockClosed" />
         <ion-input type="password" autocomplete="current-password" v-model="password"
                    placeholder="Password" ></ion-input>
       </ion-item>
       <ion-grid>
         <ion-row class="normalCase">
           <ion-col>
-            <ion-button fill="solid" color="success" expand="full" @click="doLogin">
+            <ion-button fill="solid" color="primary" expand="full" @click="doLogin">
               Login
             </ion-button>
           </ion-col>
+        </ion-row>
+        <ion-row class="normalCase">
           <ion-col>
-            <ion-button fill="clear" expand="full" router-link="/reset-password">
+            <ion-button fill="clear" color="primary" expand="full" router-link="/reset-password">
               Forgot Password?
             </ion-button>
           </ion-col>
         </ion-row>
         <ion-row class="normalCase">
           <ion-col>
-            <ion-button fill="clear" expand="full" router-link="/register">
-              <ion-icon class="color-white" slot="start" :icon="star"></ion-icon>
+            <ion-button fill="clear" color="primary" expand="full" router-link="/register">
+              <ion-icon slot="start" :icon="star"></ion-icon>
               Click Here to Signup
             </ion-button>
           </ion-col>
@@ -73,13 +75,13 @@ export default defineComponent({
     LogoContainer
   },
   setup () {
-    const { authError, store, goToHome } = libStore();
+    const { authErrorMessage, store, goToHome } = libStore();
     onIonViewWillEnter(() => {
       goToHome();
     });
     return {
       store,
-      authError,
+      authErrorMessage,
       goToHome,
       star,
       personOutline,
@@ -96,16 +98,14 @@ export default defineComponent({
     async doLogin() {
       try {
         const user = await this.store.dispatch('user/userLogin', {email: this.email, password: this.password});
-
         if (user === false) {
-          console.log(this.authError.err.message);
-          await openToast(this.authError.err.message);
+          await openToast(this.authErrorMessage());
         } else {
           await openToast("Logged In Successfully");
           this.goToHome();
         }
       } catch (e) {
-        await openToast(this.authError.err.message);
+        await openToast(this.authErrorMessage(e));
       }
     }
   }
@@ -118,11 +118,5 @@ export default defineComponent({
   }
   .pd-r-10 {
     padding-right: 10px;
-  }
-  .color-blue {
-    color: #1976d2;
-  }
-  .color-white {
-    color: #fff;
   }
 </style>
